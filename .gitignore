@@ -1,0 +1,8 @@
+# 输出 和 数据
+/outcome
+/project1-data
+
+# 配置文件
+/.idea
+/__pycache__
+
