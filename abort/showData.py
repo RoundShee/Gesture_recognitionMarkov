@@ -22,7 +22,7 @@ for n in name:
 # plt.show()
 
 # colors = ['c', 'b', 'g', 'r', 'm', 'y', 'k', 'w']
-dbscan = DBSCAN(20, 2)
+dbscan = DBSCAN(100, 2)
 dbscan.sort(values)
 xy = dbscan.get_clusters(using_plot=1)
 print(len(xy))

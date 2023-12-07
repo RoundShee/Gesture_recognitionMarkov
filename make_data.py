@@ -7,6 +7,7 @@ import pickle
     数据格式：[ [ax1,ay1], [ax2, ay2] ... [ax20, ay20],
               [ex1,ey1], .... [ux20, uy20]
             ]
+    由于i的限制，fs取15
 """
 
 

@@ -27,7 +27,7 @@ with open("./outcome/even.list", "wb") as file:
     pickle.dump(all_sample, file)
     
 # 训练模型
-# model = hmm.MultinomialHMM(n_components=10, algorithm='viterbi', n_iter=1000, tol=0.01, params='ste', init_params='ste')
-# model.fit(all_sample, 10)
+model = hmm.MultinomialHMM(n_components=10, algorithm='viterbi', n_iter=1000, tol=0.01, params='ste', init_params='ste')
+model.fit(all_sample, 10)
 # with open("./outcome/model.pkl", "wb") as file:
 #     pickle.dump(model, file)
