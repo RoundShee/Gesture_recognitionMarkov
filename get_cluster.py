@@ -87,3 +87,29 @@ def generate_five_model(eps=30, min_samples=1, fs=15, n_components=5):
     with open("./outcome/model_aeiou.pkl", "wb") as file:
         pickle.dump(model_aeiou, file)
 
+
+with open("./outcome/model_aeiou.pkl", "rb") as file:
+    model_aeiou = pickle.load(file)
+values = get_one_aeiou_xy_series(1, 2, 15)
+X = np.array(values)
+# 使用DBSCAN进行聚类
+dbscan = DBSCAN(eps=30, min_samples=1)
+labels = dbscan.fit_predict(X)
+labels_a = []
+labels_e = []
+labels_i = []
+labels_o = []
+labels_u = []
+labels_a.extend(labels[0:15])
+labels_e.extend(labels[15:30])
+labels_i.extend(labels[30:45])
+labels_o.extend(labels[45:60])
+labels_u.extend(labels[60:75])
+obs_aeiou = [np.array(labels_a).reshape(-1, 1),
+             np.array(labels_e).reshape(-1, 1),
+             np.array(labels_i).reshape(-1, 1),
+             np.array(labels_o).reshape(-1, 1),
+             np.array(labels_u).reshape(-1, 1)]
+for obs in obs_aeiou:
+    likelihood = model_aeiou[0].score(obs)
+    print(likelihood)
