@@ -25,6 +25,14 @@ xml 文件，格式易读。以奇数索引条目作为训练数据，偶数作�
 
 
 ## 工作目标
-1. ~~先实现基本的聚类算法-DBSCAN,在abort文件夹中~~  使用sklearn  
+1. ~~先实现基本的聚类算法-DBSCAN,在abort文件夹中~~  使用sklearn
 2. 
 
+## 文档说明
+*   [./make_data.py] 为[./get_cluster.py]的辅助函数文档  
+*   [./get_cluster.py] ：  
+    分类效果plot  
+    生成模型  
+    计算模型混淆矩阵  
+* 
+    
