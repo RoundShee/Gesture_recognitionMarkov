@@ -44,7 +44,7 @@ def view_dbscan_results(start=0, end=1, fs=15, eps=30, min_samples=1):
     plt.show()
 
 
-def generate_five_model(eps=30, min_samples=1, fs=15, n_components=5, output_filename="./outcome/model_aeiou.pkl"):
+def generate_five_model(fs=15, eps=30, min_samples=1, n_components=5, output_filename="./outcome/model_aeiou.pkl"):
     """
     使用训练数据生成对应参数的model组合
     :param output_filename: 输出模型存放位置
