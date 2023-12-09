@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import pickle
 from make_data import get_one_aeiou_xy_series, plot_aeiou_train_sample, plot_data_from_xml
 from hmmlearn import hmm
+import csv
 
 
 def view_dbscan_results(start=0, end=1, fs=15, eps=30, min_samples=1):
@@ -95,7 +96,7 @@ def confusion_matrix(filename='./outcome/model_aeiou.pkl', fs=15, eps=30, min_sa
     :param fs:
     :param eps:
     :param min_samples:
-    :return:
+    :return: matrix
     """
     # 先读取model-一定是aeiou
     with open(filename, "rb") as file:
@@ -123,6 +124,7 @@ def confusion_matrix(filename='./outcome/model_aeiou.pkl', fs=15, eps=30, min_sa
             pre_labels = judge_aeiou(real_labels, model_aeiou)
             matrix[j][pre_labels] += 1
     print(matrix)
+    return matrix
 
 
 def judge_aeiou(labels, model_file_loaded):
@@ -140,3 +142,41 @@ def judge_aeiou(labels, model_file_loaded):
 
 # generate_five_model()
 # confusion_matrix()
+def explore_var_argument(fs=15, eps=None, min_samples=None, n_states=None):
+    """
+    探索以上参数变化下，不同情况的混淆矩阵
+    :param fs: 此参数一次仅能测试一个
+    :param eps: range的参数范围-必须是三元
+    :param min_samples: 同range的参数范围
+    :param n_states: 同range的参数范围
+    :return:
+    """
+    if eps is None:
+        eps = [20, 50, 5]
+    if min_samples is None:
+        min_samples = [1, 4, 1]
+    if n_states is None:
+        n_states = [3, 7, 1]
+    # 创建csv
+    with open('./outcome/data.csv', mode='w', newline='') as file:
+        writer = csv.writer(file)
+        for eps_var in range(eps[0], eps[1], eps[2]):   # 更改eps
+            for min_samples_var in range(min_samples[0], min_samples[1], min_samples[2]):   # 更改min_samples
+                for n_states_var in range(n_states[0], n_states[1], n_states[2]):   # 更改n_states
+                    generate_five_model(fs=fs, eps=eps_var, min_samples=min_samples_var, n_components=n_states_var,
+                                        output_filename='./outcome/temp.plk')       # 生成模型
+                    matrix = confusion_matrix(filename='./outcome/temp.plk', fs=fs, eps=eps_var,
+                                              min_samples=min_samples_var)          # 计算测试样本的混淆矩阵
+                    # 写入标题和空行
+                    writer.writerow(['fs='+str(fs), 'eps='+str(eps_var), 'min_samples='+str(min_samples_var),
+                                     'n_states='+str(n_states_var)])
+                    writer.writerow(['混淆矩阵：', '每行真实', '列预测'])
+                    # 写入数据
+                    writer.writerows(matrix)
+                    writer.writerow([])
+                    writer.writerow([])
+    print('Done!')
+
+
+explore_var_argument(fs=15, eps=[20, 50, 5], min_samples=[1, 4, 1], n_states=[3, 7, 1])
+
