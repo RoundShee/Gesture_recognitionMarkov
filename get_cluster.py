@@ -44,9 +44,10 @@ def view_dbscan_results(start=0, end=1, fs=15, eps=30, min_samples=1):
     plt.show()
 
 
-def generate_five_model(eps=30, min_samples=1, fs=15, n_components=5):
+def generate_five_model(eps=30, min_samples=1, fs=15, n_components=5, output_filename="./outcome/model_aeiou.pkl"):
     """
     使用训练数据生成对应参数的model组合
+    :param output_filename: 输出模型存放位置
     :param eps: DBSCAN方法的epsilon
     :param min_samples: DBSCAN方法的最小样本点
     :param fs: 数据选取-时间尺度上的采样点数
@@ -83,7 +84,7 @@ def generate_five_model(eps=30, min_samples=1, fs=15, n_components=5):
     for model in model_aeiou:
         model.fit(obs_aeiou[i])
         i += 1
-    with open("./outcome/model_aeiou.pkl", "wb") as file:
+    with open(output_filename, "wb") as file:
         pickle.dump(model_aeiou, file)
 
 
